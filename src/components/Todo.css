@@ -11,7 +11,7 @@
   position: relative;
 }
 
-.checkWrapper {
+.dual {
   display: flex;
   justify-content: space-between;
 }

@@ -1,86 +1,81 @@
 import './Todo.css';
 import { FaPlusCircle, FaTrash } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Todo = (props) => {
-  /*eslint-disable */
-    const { texts } = props;
-    /* eslint-enable */
-
-  const [value, setValue] = useState('');
-  const [todo, setTodo] = useState([]);
+const Todo = () => {
+  const [todoText, setTodoText] = useState('');
+  const [collection, setCollection] = useState([]);
 
   useEffect(() => {
-    if (texts) {
-      setTodo(texts);
+    const onLocal = JSON.parse(localStorage.getItem('data'));
+    if (onLocal) {
+      const items = onLocal.map((i) => i.item);
+      setCollection(items);
     }
-  }, [texts]);
+  }, []);
+
+  function handleInput(event) {
+    setTodoText(event.target.value);
+  }
+
+  function handleSubmit() {
+    setCollection([...collection, todoText]);
+    setTodoText('');
+  }
+
+  function handleCheck(index) {
+    const onLocal = JSON.parse(localStorage.getItem('data'));
+    onLocal[index].isCompleted = !onLocal[index].isCompleted;
+    localStorage.setItem('data', JSON.stringify(onLocal));
+  }
+
+  function handleIsChecked(index) {
+    const onLocal = JSON.parse(localStorage.getItem('data'));
+    return onLocal[index]
+      ? onLocal[index].isCompleted
+      : false;
+  }
+
+  function handleTrash(index) {
+    const onLocal = JSON.parse(localStorage.getItem('data'));
+    onLocal.splice(index, 1);
+    const newArr = onLocal.map((x) => x.item);
+    setCollection(newArr);
+  }
 
   useEffect(() => {
-    const local = JSON.parse(localStorage.getItem('data'));
+    const onLocal = JSON.parse(localStorage.getItem('data'));
+
     const obj = [];
-    todo.forEach((item, index) => {
-      obj.push({ item, index, isCompleted: local[index].isCompleted });
+    collection.forEach((item, index) => {
+      obj.push({ item, index, isCompleted: onLocal[index].isCompleted || false });
     });
     if (obj.length !== 0) {
       localStorage.setItem('data', JSON.stringify(obj));
     }
-    setValue('');
-  }, [todo]);
-
-  function handleInput(event) {
-    setValue(event.target.value);
-  }
-
-  function handleClick(val) {
-    setTodo([...todo, val]);
-  }
-
-  function handleDelete(index) {
-    const solve = todo.filter((x) => todo.indexOf(x) !== index);
-    setTodo(solve);
-  }
-
-  function handleCheckBox(index) {
-    const get = JSON.parse(localStorage.getItem('data'));
-    get[index].isCompleted = !get[index].isCompleted;
-    localStorage.setItem('data', JSON.stringify(get));
-  }
-
-  const inputChecked = (index) => {
-    const get = JSON.parse(localStorage.getItem('data'));
-    return get[index].isCompleted;
-  };
+  }, [collection]);
 
   return (
     <div className="todoWrapper">
       <div className="todo">
-        <input id="input" value={value} onChange={(event) => handleInput(event)} placeholder="Your Todo..." />
-        <button id="submit" onClick={() => handleClick(value)} type="button">
+        <input type="text" value={todoText} id="input" onChange={(event) => handleInput(event)} placeholder="Your Todo..." />
+        <button id="submit" type="button" onClick={() => handleSubmit()}>
           <FaPlusCircle />
         </button>
       </div>
-      <div className="itemWrap">
-        {
-                    todo.map((i, index) => (
-                        /*eslint-disable */
-                        <div className="item" key={index}>
-                            {/* eslint-enable */}
-                          <div className="checkWrapper">
-                            <input className="check" onChange={() => handleCheckBox(index)} type="checkbox" defaultChecked={inputChecked(index)} />
-                            <p>{i}</p>
-                          </div>
-
-                          <button type="button" onClick={() => handleDelete(index)} className="trash">
-                            <FaTrash />
-                            { }
-                          </button>
-                        </div>
-                    ))
-                }
-      </div>
+      {collection.map((value, index) => (
+        <div className="item" key={collection.indexOf(value)}>
+          <div className="dual">
+            <input className="check" type="checkbox" onChange={() => handleCheck(index)} defaultChecked={handleIsChecked(index)} />
+            <p>{value}</p>
+          </div>
+          <button type="button" className="trash" onClick={() => handleTrash(index)}>
+            <FaTrash />
+            { }
+          </button>
+        </div>
+      ))}
     </div>
   );
 };
-
 export default Todo;
