@@ -1,21 +1,20 @@
 
-
 .heading {
-    margin: 10% auto;
-    margin-bottom: 5px;
-    border: 2px solid rgb(255, 255, 255);
-    width: 400px;
+  margin: 10% auto;
+  margin-bottom: 5px;
+  border: 2px solid rgb(255, 255, 255);
+  width: 400px;
 }
 
 .title {
-    font-size: 4rem;
-    text-align: center;
-    padding: 0;
-    margin: 0;
-    color: #afafaf;
+  font-size: 4rem;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  color: #afafaf;
 }
 
 .subtitle {
-    text-align: center;
-    color: #afafaf;
+  text-align: center;
+  color: #afafaf;
 }
