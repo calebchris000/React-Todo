@@ -44,11 +44,10 @@ const Todo = () => {
   }
 
   useEffect(() => {
-    const onLocal = JSON.parse(localStorage.getItem('data'));
-
     const obj = [];
     collection.forEach((item, index) => {
-      obj.push({ item, index, isCompleted: onLocal[index].isCompleted || false });
+      // const isChecked = handleIsChecked(index);
+      obj.push({ item, index, isCompleted: true });
     });
     if (obj.length !== 0) {
       localStorage.setItem('data', JSON.stringify(obj));
