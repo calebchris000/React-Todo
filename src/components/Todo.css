@@ -1,0 +1,82 @@
+.todoWrapper {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.todo {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.dual {
+  display: flex;
+  justify-content: space-between;
+}
+
+.check {
+  margin: 0 10px;
+  transform: scale(1.1);
+}
+
+#input {
+  box-sizing: border-box;
+  padding: 14px 0;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 0 16px rgb(204, 202, 202);
+  z-index: 2;
+  margin-left: 10px;
+}
+
+#input::placeholder {
+  font-size: 1.01rem;
+}
+
+#input:focus {
+  outline: none;
+}
+
+#submit {
+  background: none;
+  border: none;
+  position: absolute;
+  right: 18px;
+  bottom: 5px;
+  color: rgba(0, 0, 0, 0.61);
+  font-size: 1.2rem;
+  z-index: 2;
+}
+
+.item {
+  margin: 4px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+}
+
+.itemWrap {
+  border-radius: 10px;
+  z-index: 1;
+}
+
+.item > * {
+  align-items: center;
+  color: #636363;
+}
+
+.item > p {
+  margin: 10px;
+  color: #000;
+}
+
+.trash {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
