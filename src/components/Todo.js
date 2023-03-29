@@ -23,7 +23,14 @@ const Todo = () => {
     setTodoText('');
   }
 
-  function handleCheck(index) {
+  function handleCheck(e, index) {
+    const text = e.target.nextElementSibling;
+    if (e.target.checked) {
+      text.style.textDecoration = 'line-through';
+    } else {
+      text.style.textDecoration = 'none';
+    }
+
     const onLocal = JSON.parse(localStorage.getItem('data'));
     onLocal[index].isCompleted = !onLocal[index].isCompleted;
     localStorage.setItem('data', JSON.stringify(onLocal));
@@ -66,8 +73,8 @@ const Todo = () => {
       {collection.map((value, index) => (
         <div className="item" key={collection.indexOf(value)}>
           <div className="dual">
-            <input className="check" type="checkbox" onChange={() => handleCheck(index)} defaultChecked={handleIsChecked(index) || false} />
-            <p>{value}</p>
+            <input className="check" type="checkbox" onChange={(e) => handleCheck(e, index)} defaultChecked={handleIsChecked(index) || false} />
+            <p className="task">{value}</p>
           </div>
           <button type="button" className="trash" onClick={() => handleTrash(index)}>
             <FaTrash />

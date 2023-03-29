@@ -60,6 +60,10 @@
   border-radius: 10px;
 }
 
+.task + input[type="checkbox"]:checked ~ .task {
+  text-decoration: line-through;
+}
+
 .itemWrap {
   border-radius: 10px;
   z-index: 1;
