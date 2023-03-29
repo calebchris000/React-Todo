@@ -31,9 +31,10 @@ const Todo = () => {
 
   function handleIsChecked(index) {
     const onLocal = JSON.parse(localStorage.getItem('data'));
-    return onLocal[index]
-      ? onLocal[index].isCompleted
-      : false;
+    if (onLocal && onLocal[index]) {
+      return onLocal[index].isCompleted;
+    }
+    return false;
   }
 
   function handleTrash(index) {
@@ -47,7 +48,7 @@ const Todo = () => {
     const obj = [];
     collection.forEach((item, index) => {
       // const isChecked = handleIsChecked(index);
-      obj.push({ item, index, isCompleted: true });
+      obj.push({ item, index, isCompleted: false });
     });
     if (obj.length !== 0) {
       localStorage.setItem('data', JSON.stringify(obj));
@@ -65,7 +66,7 @@ const Todo = () => {
       {collection.map((value, index) => (
         <div className="item" key={collection.indexOf(value)}>
           <div className="dual">
-            <input className="check" type="checkbox" onChange={() => handleCheck(index)} defaultChecked={handleIsChecked(index)} />
+            <input className="check" type="checkbox" onChange={() => handleCheck(index)} defaultChecked={handleIsChecked(index) || false} />
             <p>{value}</p>
           </div>
           <button type="button" className="trash" onClick={() => handleTrash(index)}>
