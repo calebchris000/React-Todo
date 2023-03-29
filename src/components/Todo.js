@@ -14,13 +14,29 @@ const Todo = () => {
     }
   }, []);
 
+  useEffect(() => {
+    setTimeout(() => {
+      const onLocal = JSON.parse(localStorage.getItem('data'));
+      const allChecks = document.querySelectorAll('.check');
+
+      allChecks.forEach((checkbox, index) => {
+        if (onLocal && onLocal[index].isCompleted) {
+          const text = checkbox.nextElementSibling;
+          text.style.textDecoration = 'line-through';
+        }
+      });
+    }, 1000);
+  }, []);
+
   function handleInput(event) {
     setTodoText(event.target.value);
   }
 
   function handleSubmit() {
-    setCollection([...collection, todoText]);
-    setTodoText('');
+    if (todoText.length !== 0) {
+      setCollection([...collection, todoText]);
+      setTodoText('');
+    }
   }
 
   function handleCheck(e, index) {
@@ -54,8 +70,7 @@ const Todo = () => {
   useEffect(() => {
     const obj = [];
     collection.forEach((item, index) => {
-      // const isChecked = handleIsChecked(index);
-      obj.push({ item, index, isCompleted: false });
+      obj.push({ item, index, isCompleted: handleIsChecked(index) });
     });
     if (obj.length !== 0) {
       localStorage.setItem('data', JSON.stringify(obj));
@@ -83,6 +98,7 @@ const Todo = () => {
         </div>
       ))}
     </div>
+
   );
 };
 export default Todo;
